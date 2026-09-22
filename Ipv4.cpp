@@ -1,0 +1,61 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+
+int main() {
+    std::string ip;
+    std::cout << "Enter IPv4 address: ";
+    std::cin >> ip;
+
+    int b1, b2, b3, b4;
+    char extra;
+
+    
+    if (sscanf(ip.c_str(), "%d.%d.%d.%d %c", &b1, &b2, &b3, &b4, &extra) != 4) {
+        std::cout << "Invalid IP format.\n";
+        return 0;
+    }
+
+  
+    if (b1 < 0 || b1 > 255 || b2 < 0 || b2 > 255 || 
+        b3 < 0 || b3 > 255 || b4 < 0 || b4 > 255) {
+        std::cout << "Invalid IP: Bytes must be between 0 and 255.\n";
+        return 0;
+    }
+
+    std::cout << "\nValid IP: Yes\n";
+    std::cout << "First Byte: " << b1 << "\n";
+
+    
+    if (b1 >= 1 && b1 <= 126) {
+        std::cout << "Class: A\n";
+        std::cout << "NetID: " << b1 << ".0.0.0\n";
+        std::cout << "HostID: 0." << b2 << "." << b3 << "." << b4 << "\n";
+    } 
+    else if (b1 == 127) {
+        std::cout << "Class: A (Loopback)\n";
+        std::cout << "NetID: 127.0.0.0\n";
+        std::cout << "HostID: 0." << b2 << "." << b3 << "." << b4 << "\n";
+    } 
+    else if (b1 >= 128 && b1 <= 191) {
+        std::cout << "Class: B\n";
+        std::cout << "NetID: " << b1 << "." << b2 << ".0.0\n";
+        std::cout << "HostID: 0.0." << b3 << "." << b4 << "\n";
+    } 
+    else if (b1 >= 192 && b1 <= 223) {
+        std::cout << "Class: C\n";
+        std::cout << "NetID: " << b1 << "." << b2 << "." << b3 << ".0\n";
+        std::cout << "HostID: 0.0.0." << b4 << "\n";
+    } 
+    else if (b1 >= 224 && b1 <= 239) {
+        std::cout << "Class: D (Multicast - No NetID/HostID)\n";
+    } 
+    else if (b1 >= 240 && b1 <= 255) {
+        std::cout << "Class: E (Experimental - No NetID/HostID)\n";
+    } 
+    else {
+        std::cout << "Special Address (0.0.0.0)\n";
+    }
+
+    return 0;
+}
